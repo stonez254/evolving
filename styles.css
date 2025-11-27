@@ -1,455 +1,154 @@
-/* ============================================= */
-/*  EDERSTONE TECH – Futuristic Student Portal   */
-/*  Fully Responsive, Mobile-First CSS (2025)    */
-/* ============================================= */
-
+/* 🌌 GLOBAL STYLES */
 :root {
-    /* Core Colors – High Contrast Dark Theme */
-    --bg: #0D1117;
-    --surface: #161B22;
-    --surface-2: #21262D;
-    --primary: #00E5FF;
-    --primary-hover: #40F0FF;
-    --accent: #FF5722;
-    --text: #F0F6FC;
-    --text-muted: #8B949E;
-    --border: rgba(255, 255, 255, 0.1);
-    --ripple: rgba(0, 229, 255, 0.35);
-    --success: #4CAF50;
-    --danger: #F44336;
-
-    /* Layout */
-    --sidebar-width: 280px;
-    --header-height: 64px;
-    --fab-size: 64px;
-    --radius: 12px;
-    --transition: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-    --gap: 1.5rem;
-}
-
-/* ============================================= */
-/* 1. RESET & BASE STYLES                        */
-/* ============================================= */
-
-*, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html {
-    scroll-behavior: smooth;
-    -webkit-tap-highlight-color: transparent;
+    --color-primary: #00eaff;
+    --color-secondary: #ff00c3;
+    --glass-bg: rgba(255, 255, 255, 0.06);
+    --glass-border: rgba(255, 255, 255, 0.15);
 }
 
 body {
-    font-family: 'Exo 2', sans-serif;
-    background: var(--bg) url('assets/background-anime-placeholder.jpg') center/cover fixed;
-    background-blend-mode: overlay;
-    color: var(--text);
-    line-height: 1.6;
-    min-height: 100dvh;
-    overflow-x: hidden;
-    position: relative;
+    margin: 0;
+    padding: 0;
+    font-family: "Inter", sans-serif;
+    background-image: url('https://wallpapercg.com/media/ts_1x/6588.webp');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    color: white;
 }
 
-body::before {
-    content: '';
+/* DARK OVERLAY */
+body::after {
+    content: "";
     position: fixed;
     inset: 0;
-    background: rgba(13, 17, 23, 0.92);
-    z-index: -1;
+    background: rgba(0,0,0,0.5);
     pointer-events: none;
 }
 
-h1, h2, h3, h4 {
-    font-weight: 700;
-    letter-spacing: 0.5px;
-}
-
-a {
-    color: var(--primary);
-    text-decoration: none;
-    transition: color var(--transition);
-}
-
-a:hover, a:focus {
-    color: var(--primary-hover);
-    outline: none;
-}
-
-button {
-    font-family: inherit;
-    cursor: pointer;
-}
-
-/* Focus styles for accessibility */
-button:focus-visible,
-a:focus-visible {
-    outline: 2px solid var(--primary);
-    outline-offset: 4px;
-}
-
-/* ============================================= */
-/* 2. HEADER & TYPEWRITER                        */
-/* ============================================= */
-
-.futuristic-header {
-    position: sticky;
-    top: 0;
-    height: var(--header-height);
-    background: rgba(22, 27, 34, 0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 1rem;
-    z-index: 1000;
-}
-
-.portal-title {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--primary);
-    margin-left: 0.5rem;
-}
-
-#menu-toggle,
-.header-icons button {
-    background: none;
-    border: none;
-    color: var(--text);
-    font-size: 1.6rem;
-    padding: 0.6rem;
-    border-radius: 8px;
-    transition: all var(--transition);
-}
-
-#menu-toggle:hover,
-.header-icons button:hover {
-    background: rgba(255, 255, 255, 0.08);
-    transform: scale(1.1);
-}
-
-/* Typewriter Banner */
-#welcome-banner {
-    background: var(--surface);
-    padding: 1rem;
-    border-bottom: 1px solid var(--border);
-    overflow: hidden;
-}
-
-.typewriter-text {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1rem;
-    color: var(--primary);
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: 3px solid var(--primary);
-    animation: typing 4s steps(50) infinite alternate, blink 0.7s infinite;
-    display: inline-block;
-    max-width: 100%;
-}
-
-@keyframes typing {
-    from { width: 0; }
-    to { width: 100%; }
-}
-
-@keyframes blink {
-    50% { border-color: transparent; }
-}
-
-/* ============================================= */
-/* 3. SIDEBAR NAVIGATION                         */
-/* ============================================= */
-
+/* SIDEBAR */
 #sidekick-menu {
     position: fixed;
     top: 0;
-    left: 0;
-    width: 280px;
-    max-width: 90vw;
+    left: -260px;
+    width: 240px;
     height: 100%;
-    background: rgba(10, 10, 15, 0.98);
-    backdrop-filter: blur(16px);
-    border-right: 1px solid var(--primary);
-    z-index: 2000;
-    transform: translateX(-100%);
-    transition: transform var(--transition);
-    padding-top: var(--header-height);
-    overflow-y: auto;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    padding: 1rem;
+    transition: 0.3s ease;
+    border-right: 1px solid var(--glass-border);
 }
+#sidekick-menu.menu-active { left: 0; }
 
-#sidekick-menu.menu-active {
-    transform: translateX(0);
-}
-
-.menu-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: var(--header-height);
-    background: rgba(0, 229, 255, 0.1);
-    color: var(--primary);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    display: flex;
-    align-items: center;
-    padding-left: 1.5rem;
-    border-bottom: 1px solid var(--border);
-}
-
-.nav-list a {
-    display: flex;
-    align-items: center;
-    padding: 1rem 1.5rem;
-    color: var(--text-muted);
-    font-size: 0.98rem;
-    transition: all var(--transition);
-}
-
-.nav-list a i {
-    width: 32px;
-    color: var(--primary);
-}
-
-.nav-list a:hover,
-.nav-list a:focus {
-    background: rgba(0, 229, 255, 0.1);
-    color: var(--text);
-    padding-left: 2rem;
-}
-
-/* ============================================= */
-/* 4. MAIN CONTENT & GRID                        */
-/* ============================================= */
-
-#main-content {
-    transition: filter var(--transition);
-}
-
-#main-content.menu-open {
-    filter: blur(4px);
-    pointer-events: none;
-}
-
-.dashboard-grid {
-    padding: 1.5rem 1rem;
-    display: grid;
-    gap: var(--gap);
-    grid-template-columns: 1fr;
-}
-
-.section-widgets {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-}
-
-.widget-realtime,
-.widget-analytics {
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
-.time-display {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 2rem;
-    color: var(--primary);
-    margin: 0.5rem 0;
-}
-
-/* ============================================= */
-/* 5. CODE FAB & CODING ROOM                     */
-/* ============================================= */
-
-#code-fab {
+/* MENU BUTTON */
+#menu-toggle {
     position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    width: var(--fab-size);
-    height: var(--fab-size);
+    top: 1rem;
+    left: 1rem;
+    padding: 15px;
     border-radius: 50%;
-    background: var(--accent);
-    color: white;
-    font-weight: 700;
-    font-size: 0.9rem;
-    border: none;
-    box-shadow: 0 8px 25px rgba(255, 87, 34, 0.5);
-    z-index: 1500;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    font-size: 24px;
+}
+
+/* GLASS PANELS */
+.glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+    padding: 1rem;
+    border-radius: 12px;
+}
+
+/* GRID */
+.widgets-grid {
     display: grid;
-    place-items: center;
-    animation: pulse 3s infinite;
+    gap: 1rem;
+    padding: 1rem;
+}
+@media (min-width: 768px) {
+    .widgets-grid { grid-template-columns: repeat(4, 1fr); }
 }
 
-@keyframes pulse {
-    0%, 100% { box-shadow: 0 8px 25px rgba(255, 87, 34, 0.5); }
-    50% { box-shadow: 0 8px 35px rgba(255, 87, 34, 0.8); }
+/* CARDS */
+.card-list {
+    display: grid;
+    gap: 0.7rem;
+}
+.card-list a {
+    padding: 1rem;
+    border-radius: 10px;
+    display: block;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    transition: 0.25s;
+}
+.card-list a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 12px var(--color-primary);
 }
 
-/* Fullscreen Coding Room */
-#coding-room {
+/* FAB BUTTON */
+.code-button {
     position: fixed;
-    inset: 0;
-    background: var(--bg);
-    z-index: 5000;
-    display: flex;
-    flex-direction: column;
-    opacity: 0;
-    visibility: hidden;
-    transition: all var(--transition);
-}
-
-#coding-room.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.coding-interface-header {
-    height: var(--header-height);
-    background: var(--surface);
-    border-bottom: 1px solid var(--primary);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 1.5rem;
-    color: var(--primary);
-    font-family: 'JetBrains Mono', monospace;
-}
-
-.close-button {
-    background: none;
+    bottom: 2.5rem;
+    right: 1.5rem;
+    padding: 17px 24px;
+    border-radius: 50px;
+    background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
     border: none;
-    color: var(--text);
-    font-size: 1.8rem;
+    font-weight: bold;
 }
 
-.coding-panels-wrapper {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+/* RIPPLE EFFECT */
+.ripple-effect {
+    position: relative;
     overflow: hidden;
 }
-
-.panel-editors, .panel-output {
-    background: #1e1e1e;
+.ripple {
+    position: absolute;
+    background: white;
+    opacity: 0.4;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 0.5s linear;
+}
+@keyframes ripple {
+    to { transform: scale(4); opacity: 0; }
 }
 
-.editor-tab-controls {
-    display: flex;
-    background: var(--surface-2);
-    padding: 0.5rem;
-    gap: 0.5rem;
+/* SANDBOX */
+#coding-room {
+    padding: 1rem;
 }
+.hidden { display: none; }
 
-.editor-tab {
-    padding: 0.6rem 1.2rem;
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    border-radius: 6px;
-    font-family: 'JetBrains Mono', monospace;
-    transition: all var(--transition);
-}
-
-.editor-tab.active {
-    background: #1e1e1e;
-    color: var(--primary);
-}
-
-#editor-container {
-    height: calc(100% - 56px);
-    width: 100%;
+.code-editor {
+    height: 270px;
+    margin-top: 1rem;
+    border-radius: 8px;
 }
 
 #live-preview {
     width: 100%;
-    height: 100%;
-    border: none;
+    height: 250px;
+    margin-top: 1rem;
     background: white;
+    border: none;
 }
 
-/* ============================================= */
-/* 6. RIPPLE EFFECT                              */
-/* ============================================= */
-
-.ripple-effect {
-    position: relative;
-    overflow: hidden;
-    border-radius: inherit;
+/* PROGRESS BAR */
+.progress-bar {
+    width: 100%;
+    height: 5px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
 }
-
-.ripple {
-    position: absolute;
-    background: var(--ripple);
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    margin-left: -50px;
-    margin-top: -50px;
-    animation: ripple-animation 0.6s ease-out;
-    pointer-events: none;
-}
-
-@keyframes ripple-animation {
-    to {
-        transform: scale(4);
-        opacity: 0;
-    }
-}
-
-/* ============================================= */
-/* 7. RESPONSIVE BREAKPOINTS                     */
-/* ============================================= */
-
-@media (min-width: 768px) {
-    .dashboard-grid {
-        grid-template-columns: repeat(2, 1fr);
-        padding: 2rem 2rem 2rem calc(var(--sidebar-width) + 2rem);
-    }
-
-    #sidekick-menu {
-        transform: translateX(0) !important;
-        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.4);
-    }
-
-    #main-content.menu-open {
-        filter: none;
-        pointer-events: auto;
-    }
-
-    #menu-toggle {
-        display: none;
-    }
-
-    .section-widgets {
-        grid-template-columns: 2fr 1fr;
-    }
-
-    /* Coding Room – Horizontal Split */
-    .coding-panels-wrapper {
-        flex-direction: row;
-    }
-
-    .panel-editors { width: 65%; }
-    .panel-output { width: 35%; }
-
-    #coding-room {
-        left: var(--sidebar-width);
-        width: calc(100% - var(--sidebar-width));
-    }
-}
-
-@media (min-width: 1100px) {
-    .dashboard-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
+#goal-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--color-secondary);
+    transition: 0.7s;
 }

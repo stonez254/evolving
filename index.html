@@ -2,190 +2,149 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="EDERSTONE TECH Student Portal - Unified access to coding, academics, career, and research tools.">
-    <meta name="keywords" content="EDERSTONE TECH, Student, Code, Portal, Research, Career, Tech, Gemini">
-    <meta name="author" content="EDERSTONE TECH">
-    <title>EDERSTONE TECH | Futuristic Student Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Ederstone Dashboard</title>
 
-    <!-- Preload critical fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Futuristic Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <!-- Main Stylesheet -->
     <link rel="stylesheet" href="styles.css">
 
-    <!-- Monaco Editor (deferred loading - we'll initialize only when Coding Room opens) -->
+    <!-- Monaco Editor -->
     <script>
-        // We'll lazy-load Monaco only when user opens the code sandbox
-        window.monacoLoader = {
-            loaded: false,
-            callbacks: [],
-            load(callback) {
-                if (this.loaded) return callback();
-                this.callbacks.push(callback);
-                if (this.loading) return;
-
-                this.loading = true;
-                const script = document.createElement('script');
-                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.46.0/min/vs/loader.min.js';
-                script.onload = () => {
-                    require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.46.0/min/vs' }});
-                    require(['vs/editor/editor.main'], () => {
-                        window.monacoLoader.loaded = true;
-                        window.monacoLoader.callbacks.forEach(cb => cb());
-                        window.monacoLoader.callbacks = [];
-                    });
-                };
-                document.head.appendChild(script);
-            }
-        };
+        window.require = { paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.46.0/min/vs' } };
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.46.0/min/vs/loader.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.46.0/min/vs/editor/editor.main.js" defer></script>
 </head>
+<body>
 
-<body class="dark-theme">
+    <!-- 🌐 HAMBURGER MENU -->
+    <button id="menu-toggle" class="ripple-effect">☰</button>
 
-    <!-- Side Navigation (Hidden on mobile by default) -->
+    <!-- 🌐 SIDEBAR MENU -->
     <nav id="sidekick-menu" aria-label="Main Navigation">
-        <div class="menu-header" aria-hidden="true">Navigation Nexus</div>
-        <ul class="nav-list" role="list">
-            <li><a href="#dashboard" class="ripple-effect"><i class="fas fa-home" aria-hidden="true"></i> <span>Dashboard</span></a></li>
-            <li><a href="#coding" class="ripple-effect"><i class="fas fa-code" aria-hidden="true"></i> <span>Coding Sandbox</span></a></li>
-            <li><a href="#academics" class="ripple-effect"><i class="fas fa-book" aria-hidden="true"></i> <span>Academic Hub</span></a></li>
-            <li><a href="#research" class="ripple-effect"><i class="fas fa-flask" aria-hidden="true"></i> <span>Research Base</span></a></li>
-            <li><a href="#career" class="ripple-effect"><i class="fas fa-briefcase" aria-hidden="true"></i> <span>Career Path</span></a></li>
-            <li><a href="#recreation" class="ripple-effect"><i class="fas fa-music" aria-hidden="true"></i> <span>Entertainment</span></a></li>
-            <li><a href="#ai-tools" class="ripple-effect"><i class="fas fa-brain" aria-hidden="true"></i> <span>AI Tools</span></a></li>
-            <li><a href="#settings" class="ripple-effect"><i class="fas fa-cog" aria-hidden="true"></i> <span>Settings</span></a></li>
-        </ul>
+        <h2 class="menu-title">Navigation</h2>
+        <a href="#" class="ripple-effect">Dashboard</a>
+        <a href="#coding-section" class="ripple-effect">Code Sandbox</a>
+        <a href="#ai-tools" class="ripple-effect">AI Tools</a>
+        <a href="#entertainment" class="ripple-effect">Entertainment</a>
+        <a href="#learning" class="ripple-effect">Learning</a>
     </nav>
 
-    <div id="main-content">
-        <!-- Header -->
-        <header class="futuristic-header" role="banner">
-            <div class="header-left">
-                <button id="menu-toggle" class="ripple-effect" aria-label="Toggle navigation menu" aria-expanded="false">
-                    <i class="fas fa-bars" aria-hidden="true"></i>
-                </button>
-                <h1 class="portal-title">EDERSTONE TECH</h1>
-            </div>
-            <div class="header-right">
-                <div class="header-icons">
-                    <button class="ripple-effect" aria-label="Notifications"><i class="fas fa-bell" aria-hidden="true"></i></button>
-                    <button class="ripple-effect" aria-label="User profile"><i class="fas fa-user-circle" aria-hidden="true"></i></button>
-                </div>
-            </div>
-        </header>
+    <!-- 🌐 MAIN CONTENT -->
+    <main id="main-dashboard-content">
+        
+        <!-- 🌟 HEADER -->
+        <section class="header">
+            <h1 id="welcome-message-typewriter" class="typewriter"></h1>
+        </section>
 
-        <!-- Welcome Banner with Typewriter -->
-        <section id="welcome-banner" aria-labelledby="welcome-message-typewriter">
-            <div class="typewriter-container">
-                <h2 id="welcome-message-typewriter" class="typewriter-text"></h2>
+        <!-- 🌦️ WIDGETS -->
+        <section class="widgets-grid">
+
+            <!-- Time -->
+            <div class="widget glass">
+                <h3>Time</h3>
+                <p id="real-time-clock">--:--:--</p>
+            </div>
+
+            <!-- Weather -->
+            <div class="widget glass">
+                <h3>Weather</h3>
+                <p id="weather-display"></p>
+                <p id="forex-rate"></p>
+            </div>
+
+            <!-- Visitors -->
+            <div class="widget glass">
+                <h3>Visitors</h3>
+                <p id="visit-count">300</p>
+            </div>
+
+            <!-- Analytics -->
+            <div class="widget glass" id="analytics">
+                <h3>Daily Analytics</h3>
+                <p>Daily Usage: <span id="daily-hours">0h</span></p>
+
+                <div class="progress-bar">
+                    <div id="goal-bar"></div>
+                </div>
+
+                <p>Coding Streak: <span id="streak-days">0 days</span></p>
+            </div>
+
+        </section>
+
+        <!-- 📚 LEARNING LINKS -->
+        <section class="category-section" id="learning">
+            <h2>Coding Resources (Free)</h2>
+            <div class="card-list">
+                <a href="https://www.freecodecamp.org" target="_blank">FreeCodeCamp</a>
+                <a href="https://www.w3schools.com" target="_blank">W3Schools</a>
+                <a href="https://developer.mozilla.org" target="_blank">MDN Docs</a>
+                <a href="https://www.codecademy.com" target="_blank">Codecademy Free</a>
+                <a href="https://www.kaggle.com" target="_blank">Kaggle</a>
+                <a href="https://www.geeksforgeeks.org" target="_blank">GeeksForGeeks</a>
             </div>
         </section>
 
-        <!-- Main Dashboard Content -->
-        <main class="dashboard-grid" id="dashboard">
+        <!-- 🎵 ENTERTAINMENT -->
+        <section class="category-section" id="entertainment">
+            <h2>Entertainment</h2>
+            <div class="card-list">
+                <a href="https://youtube.com" target="_blank">YouTube</a>
+                <a href="https://spotify.com" target="_blank">Spotify</a>
+                <a href="https://m.netflix.com" target="_blank">Netflix</a>
+                <a href="https://soundcloud.com" target="_blank">SoundCloud</a>
+                <a href="https://twitch.tv" target="_blank">Twitch</a>
+                <a href="https://x.com" target="_blank">X (Twitter)</a>
+                <a href="https://instagram.com" target="_blank">Instagram</a>
+                <a href="https://tikTok.com" target="_blank">TikTok</a>
+                <a href="https://reddit.com" target="_blank">Reddit</a>
+                <a href="https://github.com/trending" target="_blank">GitHub Explore</a>
+            </div>
+        </section>
 
-            <!-- Floating CODE Button -->
-            <button id="code-fab" class="ripple-effect code-button" aria-label="Open Code Sandbox">
-                <i class="fas fa-laptop-code" aria-hidden="true"></i> CODE
-            </button>
+        <!-- 🤖 AI TOOLS -->
+        <section class="category-section" id="ai-tools">
+            <h2>AI Tools</h2>
+            <div class="card-list">
+                <a href="https://chat.openai.com" target="_blank">ChatGPT</a>
+                <a href="https://gemini.google.com" target="_blank">Gemini</a>
+                <a href="https://grok.x.ai" target="_blank">Grok</a>
+                <a href="https://chat.deepseek.com" target="_blank">DeepSeek</a>
+            </div>
+        </section>
 
-            <!-- Full-Screen Coding Room (Hidden by default) -->
-            <section id="coding-room" class="full-screen-section hidden" aria-hidden="true">
-                <div class="coding-interface-header">
-                    <h2>Coding Sandbox <span id="coding-room-status" class="status-indicator">OFFLINE</span></h2>
-                    <button id="close-code-room" class="ripple-effect close-button" aria-label="Close code editor">
-                        <i class="fas fa-times" aria-hidden="true"></i>
-                    </button>
-                </div>
+    </main>
 
-                <div class="coding-panels-wrapper">
-                    <div class="coding-panel panel-editors">
-                        <div class="editor-tab-controls" role="tablist">
-                            <button class="editor-tab active" data-lang="html" role="tab" aria-selected="true">HTML</button>
-                            <button class="editor-tab" data-lang="css" role="tab">CSS</button>
-                            <button class="editor-tab" data-lang="js" role="tab">JS</button>
-                            <button id="run-code" class="ripple-effect run-button"><i class="fas fa-play" aria-hidden="true"></i> Run</button>
-                        </div>
+    <!-- 🟦 FLOATING ACTION BUTTON -->
+    <button id="code-fab" class="code-button ripple-effect">CODE</button>
 
-                        <div id="editor-container" style="height: calc(100% - 50px);"></div>
-                        <div id="save-status" class="save-status">Status: Saved</div>
-                    </div>
+    <!-- 🧪 CODING SANDBOX -->
+    <section id="coding-room" class="hidden">
+        <div class="coding-header">
+            <h2>Coding Sandbox — <span id="coding-room-status">OFFLINE</span></h2>
+            <button id="close-code-room" class="ripple-effect">Close ✖</button>
+        </div>
 
-                    <div class="coding-panel panel-output">
-                        <iframe id="live-preview" title="Live Preview" sandbox="allow-scripts allow-modals allow-same-origin"></iframe>
-                    </div>
-                </div>
-            </section>
+        <div class="editor-tabs">
+            <button class="editor-tab active" data-lang="html">HTML</button>
+            <button class="editor-tab" data-lang="css">CSS</button>
+            <button class="editor-tab" data-lang="js">JS</button>
+        </div>
 
-            <!-- Widgets Row -->
-            <section class="section-widgets" aria-label="System Status & Analytics">
-                <div class="animated-container widget-realtime" id="widget-time">
-                    <h3 class="widget-title"><i class="fas fa-globe" aria-hidden="true"></i> System Status</h3>
-                    <div id="real-time-clock" class="time-display">00:00:00 AM</div>
-                    <div id="weather-display" class="weather-info">Nairobi Area, Kenya - Loading...</div>
-                    <div id="visit-count" class="counter-display">0</div>
-                </div>
+        <div id="html-editor" class="code-editor"></div>
+        <div id="css-editor" class="code-editor hidden"></div>
+        <div id="js-editor" class="code-editor hidden"></div>
 
-                <div class="animated-container widget-analytics" id="time-spent-chart">
-                    <h3 class="widget-title"><i class="fas fa-chart-line" aria-hidden="true"></i> Session Analytics</h3>
-                    <canvas id="analytics-chart"></canvas>
-                </div>
-            </section>
+        <button id="run-code" class="run-button ripple-effect">RUN</button>
+        <p id="save-status"></p>
 
-            <!-- Category Sections -->
-            <section class="category-section" id="academics">
-                <h2 class="section-title"><i class="fas fa-graduation-cap" aria-hidden="true"></i> Academic & Institutional Hub</h2>
-                <div class="card-list" role="list">
-                    <a href="#" class="animated-container card-link ripple-effect" role="listitem"><i class="fas fa-calendar-alt"></i> Timetable Sync</a>
-                    <a href="#" class="animated-container card-link ripple-effect" role="listitem"><i class="fas fa-money-check-alt"></i> Fees Tracker</a>
-                    <a href="#" class="animated-container card-link ripple-effect" role="listitem"><i class="fas fa-file-download"></i> Downloads Repo</a>
-                    <a href="#" class="animated-container card-link ripple-effect" role="listitem"><i class="fas fa-cloud-upload-alt"></i> Document Locker</a>
-                    <a href="#" class="animated-container card-link ripple-effect" role="listitem"><i class="fas fa-bed"></i> Housing Forum</a>
-                    <a href="#" class="animated-container card-link ripple-effect" role="listitem"><i class="fas fa-users"></i> Mentorship Match</a>
-                </div>
-            </section>
+        <iframe id="live-preview" sandbox="allow-scripts"></iframe>
+    </section>
 
-            <section class="category-section" id="research">
-                <h2 class="section-title"><i class="fas fa-flask" aria-hidden="true"></i> Deep Research Base</h2>
-                <div class="card-list" role="list">
-                    <a href="https://scholar.google.com" target="_blank" rel="noopener" class="animated-container card-link ripple-effect" role="listitem"><i class="fas fa-search"></i> Google Scholar</a>
-                    <a href="https://arxiv.org" target="_blank" rel="noopener" class="animated-container card-link ripple-effect" role="listitem"><i class="fas fa-robot"></i> arXiv</a>
-                    <a href="https://www.jstor.org/open" target="_blank" rel="noopener" class="animated-container card-link ripple-effect" role="listitem"><i class="fas fa-building"></i> JSTOR Open</a>
-                    <a href="https://core.ac.uk" target="_blank" rel="noopener" class="animated-container card-link ripple-effect" role="listitem"><i class="fas fa-database"></i> CORE</a>
-                    <a href="https://researchgate.net" target="_blank" rel="noopener" class="animated-container card-link ripple-effect" role="listitem"><i class="fas fa-user-tie"></i> ResearchGate</a>
-                </div>
-            </section>
-
-            <!-- Repeat similar pattern for other sections (coding, career, etc.) -->
-            <!-- I'll keep them short here, but same improvements applied -->
-
-            <section class="category-section" id="coding">
-                <h2 class="section-title"><i class="fas fa-keyboard" aria-hidden="true"></i> Coding Resources</h2>
-                <div class="card-list" role="list">
-                    <a href="https://freecodecamp.org" target="_blank" rel="noopener" class="animated-container card-link ripple-effect" role="listitem">FreeCodeCamp</a>
-                    <a href="https://w3schools.com" target="_blank" rel="noopener" class="animated-container card-link ripple-effect" role="listitem">W3Schools</a>
-                    <a href="https://developer.mozilla.org" target="_blank" rel="noopener" class="animated-container card-link ripple-effect" role="listitem">MDN Web Docs</a>
-                    <a href="https://leetcode.com" target="_blank" rel="noopener" class="animated-container card-link ripple-effect" role="listitem">LeetCode</a>
-                </div>
-            </section>
-
-            <!-- Add career, recreation, ai-tools similarly... (same structure) -->
-
-        </main>
-
-        <footer class="futuristic-footer" role="contentinfo">
-            <p>© 2025 EDERSTONE TECH. All systems nominal.</p>
-        </footer>
-    </div>
-
-    <!-- Main Script (deferred) -->
-    <script defer src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -1,258 +1,183 @@
-/* ============================================= */
-/*  EDERSTONE TECH – Futuristic Student Portal   */
-/*  Optimized & Modern JavaScript (2025)         */
-/* ============================================= */
+// --- DOM ELEMENTS ---
+const menuToggle = document.getElementById("menu-toggle");
+const sidekickMenu = document.getElementById("sidekick-menu");
+const codeFab = document.getElementById("code-fab");
+const mainDashboard = document.getElementById("main-dashboard-content");
 
-(() => {
-    'use strict';
+const realTimeClock = document.getElementById("real-time-clock");
+const weatherDisplay = document.getElementById("weather-display");
+const visitCountDisplay = document.getElementById("visit-count");
 
-    // ==================== DOM ELEMENTS ====================
-    const $ = (s) => document.querySelector(s);
-    const $$ = (s) => document.querySelectorAll(s);
+const dailyHoursEl = document.getElementById("daily-hours");
+const streakDaysEl = document.getElementById("streak-days");
+const goalBar = document.getElementById("goal-bar");
 
-    const menuToggle = $('#menu-toggle');
-    const sidekickMenu = $('#sidekick-menu');
-    const mainContent = $('#main-content');
-    const codeFab = $('#code-fab');
-    const codingRoom = $('#coding-room');
-    const closeCodeRoom = $('#close-code-room');
-    const codingRoomStatus = $('#coding-room-status');
-    const runCodeButton = $('#run-code');
-    const livePreview = $('#live-preview');
-    const saveStatus = $('#save-status');
-    const editorContainer = $('#editor-container');
-    const typewriterEl = $('#welcome-message-typewriter');
-    const clockEl = $('#real-time-clock');
-    const weatherEl = $('#weather-display');
-    const visitCountEl = $('#visit-count');
+const codingRoom = document.getElementById("coding-room");
+const closeCodeRoom = document.getElementById("close-code-room");
+const codingStatus = document.getElementById("coding-room-status");
 
-    // ==================== STATE ====================
-    let monacoEditor = null;
-    let currentLang = 'html';
-    let isCodingRoomOpen = false;
+const runCodeButton = document.getElementById("run-code");
+const saveStatus = document.getElementById("save-status");
+const livePreviewFrame = document.getElementById("live-preview");
 
-    const messages = [
-        "EDERSTONE TECH: KNOWLEDGE SYNC ACTIVE.",
-        "CODE SANDBOX READY FOR INITIATION.",
-        "RESEARCH BASE ACCESS GRANTED.",
-        "SYSTEM STATUS: ALL CORE MODULES ONLINE."
-    ];
-    let msgIndex = 0;
+const typewriterElement = document.getElementById("welcome-message-typewriter");
 
-    const editorState = {
-        html: localStorage.getItem('ederstone-html') || `<h1>Hello, Future Coder!</h1>\n<p>Welcome to your personal sandbox.</p>`,
-        css: localStorage.getItem('ederstone-css') || `body {\n  font-family: 'Exo 2', sans-serif;\n  background: #0D1117;\n  color: #00E5FF;\n  text-align: center;\n  padding: 2rem;\n}`,
-        js: localStorage.getItem('ederstone-js') || `// Try something fun!\nconsole.log("EDERSTONE TECH Running!");`
-    };
+// --- STATE ---
+let visitors = 300;
+let timeSpent = 3.2;
+let streak = 4;
 
-    // ==================== UTILITIES ====================
-    const debounce = (func, wait) => {
-        let timeout;
-        return (...args) => {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(this, args), wait);
-        };
-    };
+let currentRate = 0.007704;
 
-    const saveCode = () => {
-        if (!monacoEditor) return;
-        const value = monacoEditor.getValue();
-        editorState[currentLang] = value;
-        localStorage.setItem(`ederstone-${currentLang}`, value);
-        saveStatus.textContent = 'Saved';
-        setTimeout(() => saveStatus.textContent = '', 1500);
-    };
+// --- TYPEWRITER ---
+const messages = [
+    "EDERSTONE SYSTEMS - BOOT COMPLETE.",
+    "CODE SANDBOX ONLINE.",
+    "AI MODULES: READY.",
+    "WELCOME BACK, DEVELOPER."
+];
+let msgIndex = 0;
 
-    const runCode = () => {
-        const html = editorState.html;
-        const css = `<style>${editorState.css}</style>`;
-        const js = `<script>${editorState.js}<\/script>`;
+function typeWriter(text, el, i = 0) {
+    if (i < text.length) {
+        el.textContent = text.substring(0, i + 1);
+        setTimeout(() => typeWriter(text, el, i + 1), 50);
+    } else {
+        setTimeout(() => eraseWriter(text, el), 2000);
+    }
+}
+function eraseWriter(text, el, i = text.length) {
+    if (i > 0) {
+        el.textContent = text.substring(0, i - 1);
+        setTimeout(() => eraseWriter(text, el, i - 1), 30);
+    } else {
+        msgIndex = (msgIndex + 1) % messages.length;
+        typeWriter(messages[msgIndex], el);
+    }
+}
+typeWriter(messages[0], typewriterElement);
 
-        const output = `
-            <!DOCTYPE html>
-            <html><head>${css}</head><body>${html}${js}</body></html>
-        `;
-        livePreview.srcdoc = output;
-    };
+// --- REAL-TIME WIDGETS ---
+function updateWidgets() {
+    realTimeClock.textContent = new Date().toLocaleTimeString();
 
-    const debouncedRun = debounce(runCode, 600);
+    visitors += Math.floor(Math.random() * 3);
+    visitCountDisplay.textContent = visitors;
 
-    // ==================== MONACO LAZY LOAD + INIT ====================
-    const initMonaco = async () => {
-        if (monacoEditor) return;
+    timeSpent += 0.004;
+    dailyHoursEl.textContent = `${timeSpent.toFixed(2)}h`;
 
-        // Show loading state
-        codingRoomStatus.textContent = 'LOADING...';
-        codingRoomStatus.style.color = '#FFEB3B';
+    const percent = Math.min(100, (timeSpent / 4) * 100);
+    goalBar.style.width = `${percent}%`;
 
-        await window.monacoLoader.load(() => {
-            monacoEditor = monaco.editor.create(editorContainer, {
-                value: editorState[currentLang],
-                language: currentLang,
-                theme: 'vs-dark',
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 15,
-                lineNumbers: 'on',
-                minimap: { enabled: false },
-                scrollBeyondLastLine: false,
-                automaticLayout: true,
-                wordWrap: 'on',
-                padding: { top: 16, bottom: 16 }
-            });
+    streakDaysEl.textContent = `${streak} days`;
 
-            // Language switcher
-            $$('.editor-tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    if (tab.classList.contains('active')) return;
+    updateForex();
+}
+setInterval(updateWidgets, 1000);
 
-                    // Save current
-                    editorState[currentLang] = monacoEditor.getValue();
-                    localStorage.setItem(`ederstone-${currentLang}`, editorState[currentLang]);
+// --- FOREX SIM ---
+function updateForex() {
+    const change = (Math.random() - 0.5) * 0.000005;
+    currentRate = Math.max(0.0075, Math.min(0.0079, currentRate + change));
 
-                    // Switch
-                    currentLang = tab.dataset.lang;
-                    $$('.editor-tab').forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
+    const forex = document.getElementById("forex-rate");
+    forex.textContent = `1 KES = ${currentRate.toFixed(6)} USD`;
+}
+weatherDisplay.textContent = "Nairobi - Cloudy, Mild Winds";
 
-                    monaco.editor.setModelLanguage(monacoEditor.getModel(), currentLang);
-                    monacoEditor.setValue(editorState[currentLang]);
-                    monacoEditor.focus();
-                });
-            });
+// --- RIPPLE EFFECT ---
+document.querySelectorAll(".ripple-effect").forEach(el => {
+    el.addEventListener("click", e => {
+        const circle = document.createElement("span");
+        const diameter = Math.max(el.clientWidth, el.clientHeight);
+        const radius = diameter / 2;
 
-            // Auto-save + live preview
-            monacoEditor.onDidChangeModelContent(() => {
-                saveCode();
-                debouncedRun();
-            });
-
-            // Initial run
-            runCode();
-            codingRoomStatus.textContent = 'ONLINE';
-            codingRoomStatus.style.color = '#4CAF50';
-        });
-    };
-
-    // ==================== CODING ROOM TOGGLE ====================
-    const openCodingRoom = async () => {
-        if (isCodingRoomOpen) return;
-        isCodingRoomOpen = true;
-
-        codingRoom.classList.add('active');
-        codeFab.style.opacity = '0';
-        codeFab.style.pointerEvents = 'none';
-
-        localStorage.setItem('codedToday', 'true');
-        await initMonaco();
-    };
-
-    const closeCodingRoomFn = () => {
-        if (!isCodingRoomOpen) return;
-        isCodingRoomOpen = false;
-
-        codingRoom.classList.remove('active');
-        codeFab.style.opacity = '1';
-        codeFab.style.pointerEvents = 'auto';
-
-        codingRoomStatus.textContent = 'OFFLINE';
-        codingRoomStatus.style.color = '#F44336';
-    };
-
-    codeFab.addEventListener('click', openCodingRoom);
-    closeCodeRoom.addEventListener('click', closeCodingRoomFn);
-
-    // Close on backdrop click (mobile)
-    codingRoom.addEventListener('click', (e) => {
-        if (e.target === codingRoom) closeCodingRoomFn();
-    });
-
-    // ==================== MENU TOGGLE ====================
-    menuToggle.addEventListener('click', () => {
-        const isOpen = sidekickMenu.classList.toggle('menu-active');
-        mainContent.classList.toggle('menu-open', isOpen);
-        document.body.style.overflow = isOpen ? 'hidden' : '';
-    });
-
-    // Close menu on nav link click (mobile)
-    sidekickMenu.addEventListener('click', (e) => {
-        if (e.target.closest('a') && window.innerWidth < 768) {
-            sidekickMenu.classList.remove('menu-active');
-            mainContent.classList.remove('menu-open');
-            document.body.style.overflow = '';
-        }
-    });
-
-    // ==================== RIPPLE EFFECT ====================
-    document.addEventListener('click', (e) => {
-        const el = e.target.closest('.ripple-effect');
-        if (!el) return;
-
-        const ripple = document.createElement('span');
         const rect = el.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = e.clientX - rect.left - size / 2;
-        const y = e.clientY - rect.top - size / 2;
+        circle.style.width = circle.style.height = `${diameter}px`;
+        circle.style.left = `${e.clientX - rect.left - radius}px`;
+        circle.style.top = `${e.clientY - rect.top - radius}px`;
+        circle.className = "ripple";
 
-        ripple.className = 'ripple';
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
+        const existing = el.querySelector(".ripple");
+        if (existing) existing.remove();
 
-        el.appendChild(ripple);
-        setTimeout(() => ripple.remove(), 600);
+        el.appendChild(circle);
+
+        circle.addEventListener("animationend", () => circle.remove(), { once: true });
+    });
+});
+
+// --- MENU ---
+menuToggle.addEventListener("click", () => {
+    sidekickMenu.classList.toggle("menu-active");
+});
+
+// --- CODING SANDBOX ---
+let htmlEditor, cssEditor, jsEditor;
+function toggleCoding(show) {
+    if (show) {
+        mainDashboard.classList.add("hidden");
+        codingRoom.classList.remove("hidden");
+        codingStatus.textContent = "ONLINE";
+
+        if (!htmlEditor) initializeEditors();
+    } else {
+        mainDashboard.classList.remove("hidden");
+        codingRoom.classList.add("hidden");
+        codingStatus.textContent = "OFFLINE";
+    }
+}
+
+codeFab.addEventListener("click", () => toggleCoding(true));
+closeCodeRoom.addEventListener("click", () => toggleCoding(false));
+
+// --- MONACO EDITORS ---
+function initializeEditors() {
+    htmlEditor = monaco.editor.create(document.getElementById("html-editor"), {
+        value: "<h1>Hello World</h1>",
+        language: "html",
+        theme: "vs-dark"
     });
 
-    // ==================== TYPEWRITER EFFECT ====================
-    const typeWriter = () => {
-        let i = 0;
-        const txt = messages[msgIndex];
-        typewriterEl.textContent = '';
+    cssEditor = monaco.editor.create(document.getElementById("css-editor"), {
+        value: "body { font-family: Arial; }",
+        language: "css",
+        theme: "vs-dark"
+    });
 
-        const type = () => {
-            if (i < txt.length) {
-                typewriterEl.textContent += txt.charAt(i);
-                i++;
-                setTimeout(type, 50);
-            } else {
-                setTimeout(() => {
-                    msgIndex = (msgIndex + 1) % messages.length;
-                    typeWriter();
-                }, 3000);
-            }
-        };
-        type();
-    };
+    jsEditor = monaco.editor.create(document.getElementById("js-editor"), {
+        value: "console.log('Hello');",
+        language: "javascript",
+        theme: "vs-dark"
+    });
 
-    typeWriter();
-
-    // ==================== REAL-TIME WIDGETS ====================
-    const updateClock = () => {
-        const now = new Date();
-        clockEl.textContent = now.toLocaleTimeString('en-US', {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: true
+    // Debounced Auto Save + Auto Run
+    let runTimeout;
+    [htmlEditor, cssEditor, jsEditor].forEach(ed => {
+        ed.onDidChangeModelContent(() => {
+            saveStatus.textContent = "Saving...";
+            clearTimeout(runTimeout);
+            runTimeout = setTimeout(() => {
+                saveStatus.textContent = "Saved";
+                runPreview();
+            }, 600);
         });
-    };
-
-    let visitors = Math.floor(Math.random() * 500) + 800;
-    const updateVisitors = () => {
-        if (Math.random() < 0.3) visitors += Math.floor(Math.random() * 3);
-        visitCountEl.textContent = visitors.toLocaleString();
-    };
-
-    setInterval(() => {
-        updateClock();
-        updateVisitors();
-    }, 1000);
-
-    updateClock();
-    weatherEl.textContent = 'Nairobi, Kenya • 24°C • Partly Cloudy';
-
-    // ==================== INIT =================ON LOAD ====================
-    window.addEventListener('load', () => {
-        document.body.classList.add('loaded');
     });
+}
 
-})();
+// --- RUN PREVIEW ---
+function runPreview() {
+    const html = htmlEditor.getValue();
+    const css = cssEditor.getValue();
+    const js = jsEditor.getValue();
+
+    livePreviewFrame.srcdoc = `
+        <html>
+            <head><style>${css}</style></head>
+            <body>${html}<script>${js}<\/script></body>
+        </html>
+    `;
+}
+
+runCodeButton.addEventListener("click", runPreview);
