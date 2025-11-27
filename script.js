@@ -239,3 +239,84 @@ if (localStorage.getItem('lastVisitDate') !== today) {
     localStorage.setItem('codedToday', 'false');
     localStorage.setItem('lastVisitDate', today);
 }
+
+// --- 2. CONFIGURATION & STATE ---
+
+// ... existing state variables ...
+
+// Remove all specific location references (Jkuat, Juja)
+weatherDisplay.innerHTML = `Nairobi Area, Kenya - Forecast: Cloudy, Low Wind`; 
+
+// Array of dynamic messages for the typewriter effect
+const typewriterMessages = [
+    "ACCESS GRANTED.",
+    "SYNCING KNOWLEDGE BASE...",
+    "INITIATING PORTAL HUB.",
+    "EDERSTONE TECH ONLINE.",
+    "WELCOME, USER_001.",
+];
+
+let messageIndex = 0;
+const typewriterElement = document.getElementById('welcome-message-typewriter');
+
+// --- B. NEW TYPEWRITER LOGIC ---
+
+/**
+ * Creates the character-by-character typewriter effect.
+ * @param {string} text - The text to be typed.
+ * @param {HTMLElement} element - The DOM element to write into.
+ * @param {number} delay - Delay between each character (in ms).
+ */
+function typeWriter(text, element, delay = 75) {
+    let charIndex = 0;
+    
+    element.innerHTML = ''; // Clear existing text
+
+    // Add a temporary class for cursor blinking while typing
+    element.style.animation = 'none'; 
+    element.offsetHeight; // Trigger reflow
+    element.style.animation = 'blink 0.7s infinite step-end'; // Restart blink
+
+    function typingLoop() {
+        if (charIndex < text.length) {
+            element.innerHTML += text.charAt(charIndex);
+            charIndex++;
+            setTimeout(typingLoop, delay);
+        } else {
+            // Typing complete, keep the text for a moment (e.g., 3 seconds)
+            setTimeout(eraseText, 3000); 
+        }
+    }
+
+    function eraseText() {
+        if (element.innerHTML.length > 0) {
+            element.innerHTML = element.innerHTML.substring(0, element.innerHTML.length - 1);
+            setTimeout(eraseText, delay / 2); // Faster erase
+        } else {
+            // Erasure complete, move to the next message
+            messageIndex = (messageIndex + 1) % typewriterMessages.length;
+            setTimeout(startTypewriterSequence, 500); // Small pause before typing next message
+        }
+    }
+
+    typingLoop();
+}
+
+/**
+ * Starts the continuous typewriter sequence.
+ */
+function startTypewriterSequence() {
+    const nextMessage = typewriterMessages[messageIndex];
+    typeWriter(nextMessage, typewriterElement);
+}
+
+// Start the effect on page load
+startTypewriterSequence();
+
+
+// --- C. INTEGRATION NOTES ---
+
+// The existing updateRealTimeWidgets() function needs no change, 
+// but ensure the weather data is updated:
+// Before: weatherDisplay.innerHTML = `17°C, 92% Humidity (Juja), Low Wind`;
+// Now:    weatherDisplay.innerHTML = `Nairobi Area, Kenya - Forecast: Cloudy, Low Wind`;

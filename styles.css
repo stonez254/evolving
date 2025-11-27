@@ -411,4 +411,28 @@ a:hover {
     }
 }
 
+
+
+/* Add this class to ensure the typewriter text doesn't wrap oddly while typing */
+#welcome-message-typewriter {
+    /* Use monospace font for the effect */
+    font-family: 'JetBrains Mono', monospace; 
+    font-weight: 500;
+    white-space: nowrap; /* Prevent line break during typing */
+    overflow: hidden; /* Hide extra characters */
+    border-right: 3px solid var(--color-primary-accent); /* Blinking cursor effect */
+    color: var(--color-primary-accent);
+}
+
+/* We will use JavaScript to control the blinking cursor animation later */
+/* Keyframe for a smooth, enticing cursor blink */
+@keyframes blink {
+    0%, 100% { border-color: transparent; }
+    50% { border-color: var(--color-primary-accent); }
+}
+
+/* Apply the blink only when the typing animation is NOT running (optional) */
+/* .typewriter-cursor {
+    animation: blink 0.7s infinite step-end;
+} */
 /* --- END OF CSS FILE --- */
