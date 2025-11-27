@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="JKUAT Student Tech Portal - Access to coding, academics, career, and recreational tools.">
+    <meta name="keywords" content="JKUAT, Student, Code, Coding, Portal, University, Kenya, Tech, Career, Gemini">
+    <meta name="author" content="JKUAT Nexus Team">
+    <title>JKUAT Student Portal | Nexus OS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            /* Background uses a subtle anime image with a dark overlay (CSS will handle opacity/blur) */
+            background-image: url('assets/background-anime-placeholder.jpg');
+        }
+    </style>
+</head>
+<body class="dark-theme">
+
+    <nav id="sidekick-menu" class="menu-hidden">
+        <div class="menu-header">Navigation Nexus</div>
+        <ul class="nav-list">
+            <li class="ripple-effect"><a href="#dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li class="ripple-effect"><a href="#coding"><i class="fas fa-code"></i> Coding Base</a></li>
+            <li class="ripple-effect"><a href="#academics"><i class="fas fa-book"></i> Academic Hub</a></li>
+            <li class="ripple-effect"><a href="#career"><i class="fas fa-briefcase"></i> Career Path</a></li>
+            <li class="ripple-effect"><a href="#recreation"><i class="fas fa-gamepad"></i> Recreation & Risk</a></li>
+            <li class="ripple-effect"><a href="#ai-tools"><i class="fas fa-brain"></i> AI Tools</a></li>
+            <li class="ripple-effect"><a href="#settings"><i class="fas fa-cog"></i> Settings</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        
+        <header class="futuristic-header">
+            <button id="menu-toggle" class="ripple-effect"><i class="fas fa-bars"></i></button>
+            <h1 class="portal-title">J-Tech Nexus OS</h1>
+            <div class="header-icons">
+                <button class="ripple-effect"><i class="fas fa-bell"></i></button>
+                <button class="ripple-effect"><i class="fas fa-user-circle"></i></button>
+            </div>
+        </header>
+
+        <main class="dashboard-grid">
+            
+            <button id="code-fab" class="ripple-effect code-button"><i class="fas fa-laptop-code"></i> CODE</button>
+
+            <section class="section-widgets">
+                
+                <div class="animated-container widget-realtime" id="widget-time">
+                    <h3 class="widget-title"><i class="fas fa-globe-africa"></i> JKUAT Nexus Status</h3>
+                    <div class="data-block">
+                        <div class="data-label">Actual Time (EAT)</div>
+                        <div id="real-time-clock" class="time-display">7:56:08 AM</div>
+                    </div>
+                    <div class="data-block">
+                        <div class="data-label">Juja Atmospheric Conditions</div>
+                        <div id="weather-display" class="weather-info">17°C, 92% Humidity</div>
+                    </div>
+                    <div class="data-block">
+                        <div class="data-label">Real-Time Portal Visitors</div>
+                        <div id="visit-count" class="counter-display">Loading...</div>
+                    </div>
+                </div>
+
+                <div class="animated-container widget-analytics">
+                    <h3 class="widget-title"><i class="fas fa-chart-line"></i> Web Usage Analytics</h3>
+                    <div id="time-spent-chart" class="chart-placeholder">
+                        <p>Daily Usage: 3h 15m (75% of goal)</p>
+                        <p>Streak: 4 days of coding practice</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="category-section" id="coding">
+                <h2 class="section-title"><i class="fas fa-keyboard"></i> Coding Base Resources</h2>
+                <div class="card-list">
+                    <a href="https://freecodecamp.org" class="animated-container card-link ripple-effect" data-category="coding">FreeCodeCamp</a>
+                    <a href="https://w3schools.com" class="animated-container card-link ripple-effect" data-category="coding">W3Schools</a>
+                    <a href="https://geeksforgeeks.org" class="animated-container card-link ripple-effect" data-category="coding">GeeksForGeeks</a>
+                    <a href="https://developer.mozilla.org/en-US/" class="animated-container card-link ripple-effect" data-category="coding">MDN Web Docs</a>
+                    <a href="https://leetcode.com" class="animated-container card-link ripple-effect" data-category="coding">LeetCode</a>
+                    <a href="https://kaggle.com/learn" class="animated-container card-link ripple-effect" data-category="coding">Kaggle Learn (ML)</a>
+                    <a href="https://replit.com" class="animated-container card-link ripple-effect" data-category="coding-util">Replit (Quick IDE)</a>
+                </div>
+            </section>
+
+            <section class="category-section" id="academics">
+                <h2 class="section-title"><i class="fas fa-graduation-cap"></i> Academic & Institutional Hub</h2>
+                <div class="card-list">
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="academics-core"><i class="fas fa-calendar-alt"></i> Timetable Sync</a>
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="academics-core"><i class="fas fa-money-check-alt"></i> Fees & Payment Tracker</a>
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="academics-core"><i class="fas fa-file-download"></i> Student Downloads Repo</a>
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="academics-core"><i class="fas fa-cloud-upload-alt"></i> Document Locker</a>
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="academics-link"><i class="fas fa-chalkboard"></i> Common Units LMS</a>
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="academics-link"><i class="fas fa-book-open"></i> Library E-Resources</a>
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="academics-link"><i class="fas fa-life-ring"></i> Emergency Contacts</a>
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="academics-social"><i class="fas fa-bed"></i> Hostel/Housing Forum</a>
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="academics-social"><i class="fas fa-users"></i> Mentorship Match</a>
+                </div>
+            </section>
+
+            <section class="category-section" id="ai-tools">
+                <h2 class="section-title"><i class="fas fa-robot"></i> AI Consultation Tools</h2>
+                <div class="card-list">
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="ai-core">Gemini (You)</a>
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="ai-core">Grok</a>
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="ai-core">DeepSeek</a>
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="ai-core">ChatGPT</a>
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="ai-util"><i class="fas fa-search"></i> AI Output Comparison</a>
+                </div>
+            </section>
+
+            <section class="category-section" id="career">
+                <h2 class="section-title"><i class="fas fa-rocket"></i> Career & Job Bridging</h2>
+                <div class="card-list">
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="career-main"><i class="fas fa-clipboard-list"></i> Internship & Attachment Board</a>
+                    <a href="https://linkedin.com" class="animated-container card-link ripple-effect" data-category="job-link"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                    <a href="https://tayari.co.ke" class="animated-container card-link ripple-effect" data-category="job-link"><i class="fas fa-link"></i> Tayari</a>
+                    <a href="https://brightermonday.co.ke" class="animated-container card-link ripple-effect" data-category="job-link"><i class="fas fa-chart-area"></i> BrighterMonday</a>
+                    <a href="https://digitalent.go.ke" class="animated-container card-link ripple-effect" data-category="job-link"><i class="fas fa-cogs"></i> Digitalent (ICT Auth.)</a>
+                    <a href="https://upwork.com" class="animated-container card-link ripple-effect" data-category="job-link"><i class="fas fa-hand-holding-usd"></i> Freelance Hub</a>
+                </div>
+            </section>
+
+            <section class="category-section" id="recreation">
+                <h2 class="section-title"><i class="fas fa-bolt"></i> Recreation & Risk Literacy</h2>
+                <div class="card-list">
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="finance"><i class="fas fa-chart-bar"></i> Forex Education (CBK)</a>
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="risk-manage"><i class="fas fa-exclamation-triangle"></i> Responsible Gaming & Help</a>
+                    <a href="https://youtube.com" class="animated-container card-link ripple-effect" data-category="entertainment"><i class="fab fa-youtube"></i> YouTube</a>
+                    <a href="https://spotify.com" class="animated-container card-link ripple-effect" data-category="entertainment"><i class="fab fa-spotify"></i> Spotify</a>
+                    <a href="https://twitch.tv" class="animated-container card-link ripple-effect" data-category="entertainment"><i class="fab fa-twitch"></i> Twitch</a>
+                    <a href="https://soundcloud.com" class="animated-container card-link ripple-effect" data-category="entertainment"><i class="fab fa-soundcloud"></i> SoundCloud</a>
+                    <a href="https://tiktok.com" class="animated-container card-link ripple-effect" data-category="entertainment"><i class="fab fa-tiktok"></i> TikTok Web</a>
+                    <a href="https://reddit.com" class="animated-container card-link ripple-effect" data-category="entertainment"><i class="fab fa-reddit-alien"></i> Reddit</a>
+                    <a href="https://netflix.com" class="animated-container card-link ripple-effect" data-category="entertainment"><i class="fas fa-film"></i> Netflix</a>
+                    <a href="https://crunchyroll.com" class="animated-container card-link ripple-effect" data-category="entertainment"><i class="fas fa-laptop-house"></i> Crunchyroll</a>
+                    <a href="https://pinterest.com" class="animated-container card-link ripple-effect" data-category="entertainment"><i class="fab fa-pinterest"></i> Pinterest</a>
+                    <a href="https://vimeo.com" class="animated-container card-link ripple-effect" data-category="entertainment"><i class="fab fa-vimeo"></i> Vimeo</a>
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="games">Action/Battle Royale Hub</a>
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="games">MOBA & Strategy</a>
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="games">Sports & Racing Sims</a>
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="games">Casual & Puzzle Games</a>
+                    <a href="#" class="animated-container card-link ripple-effect" data-category="games">Open-World RPGs</a>
+                </div>
+            </section>
+            
+        </main>
+        
+        <footer class="futuristic-footer">
+            <p>&copy; 2025 J-Tech Nexus OS. Optimized for Mobile Experience. **Exo 2** Font.</p>
+        </footer>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
