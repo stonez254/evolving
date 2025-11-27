@@ -2,19 +2,19 @@
 
 :root {
     /* Color Palette */
-    --color-background: #0D1117; /* Very Dark Blue-Black (Code theme) */
-    --color-surface: #161B22;    /* Slightly lighter for cards/surfaces */
-    --color-primary-accent: #00E5FF; /* Electric Cyan/Blue for primary actions/highlights */
-    --color-secondary-accent: #FF5722; /* Orange for alerts/FAB/secondary actions */
-    --color-text-primary: #F0F6FC; /* Bright white for high contrast */
+    --color-background: #0D1117;    /* Very Dark Blue-Black (Code theme) */
+    --color-surface: #161B22;       /* Cards, menu, and secondary containers */
+    --color-primary-accent: #00E5FF; /* Electric Cyan/Blue for primary highlights */
+    --color-secondary-accent: #FF5722; /* Orange for alerts/FAB */
+    --color-text-primary: #F0F6FC;  /* Bright white for high contrast */
     --color-text-secondary: #8B949E; /* Muted gray for secondary info */
-    --color-border-subtle: rgba(255, 255, 255, 0.08); /* Minimalist border */
+    --color-border-subtle: rgba(255, 255, 255, 0.08); 
+    --color-code-background: #1e1e1e; /* Specific background for code editors */
 
     /* Layout & Spacing */
-    --menu-width-mobile: 80vw;
     --menu-width-desktop: 250px;
     --mobile-padding: 1rem;
-    --transition-speed: 0.35s;
+    --transition-speed: 0.3s;
 
     /* Effects */
     --ripple-color: rgba(0, 229, 255, 0.4); 
@@ -26,13 +26,13 @@
     box-sizing: border-box;
 }
 
-/* Background/Body Setup */
+/* Background/Body Setup: Ensures perfect fit and no horizontal scroll */
 body {
     background-color: var(--color-background);
     color: var(--color-text-primary);
     font-family: 'Exo 2', sans-serif; 
     min-height: 100vh;
-    overflow-x: hidden; 
+    overflow-x: hidden; /* CRITICAL: Prevents horizontal scroll */
     line-height: 1.6;
     position: relative;
     
@@ -43,7 +43,7 @@ body {
     background-attachment: fixed;
     /* Dark overlay for contrast over the anime background */
     background-blend-mode: multiply;
-    background-color: rgba(13, 17, 23, 0.85); /* 85% opacity overlay */
+    background-color: rgba(13, 17, 23, 0.85); 
 }
 
 a {
@@ -55,7 +55,7 @@ a:hover {
     color: #40F0FF; 
 }
 
-/* --- 2. MAIN HEADER & NAVIGATION --- */
+/* --- 2. HEADER & TYPEWRITER ANIMATION --- */
 
 .futuristic-header {
     display: flex;
@@ -63,10 +63,15 @@ a:hover {
     align-items: center;
     padding: 0.75rem var(--mobile-padding);
     background-color: var(--color-surface);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     position: sticky;
     top: 0;
     z-index: 1000;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
 }
 
 .portal-title {
@@ -76,40 +81,66 @@ a:hover {
     letter-spacing: 1px;
 }
 
-/* Base button style for interactivity */
-#menu-toggle, .header-icons button, .code-button {
+#menu-toggle, .header-icons button {
     background: none;
     border: none;
     color: var(--color-text-primary);
     font-size: 1.5rem;
     cursor: pointer;
     padding: 0.5rem;
+    margin-right: 0.5rem;
     transition: color 0.2s ease, transform 0.2s ease;
     border-radius: 4px;
     position: relative; 
     overflow: hidden;
 }
 
-/* --- 3. SIDEKICK MENU & PUSH ANIMATION --- */
+/* Dynamic Text Banner */
+#welcome-banner {
+    background-color: var(--color-surface);
+    padding: 0.5rem var(--mobile-padding);
+    border-bottom: 1px solid var(--color-border-subtle);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.typewriter-text {
+    font-family: 'JetBrains Mono', monospace; 
+    font-weight: 500;
+    font-size: 0.95rem;
+    white-space: nowrap; 
+    overflow: hidden; 
+    border-right: 3px solid var(--color-primary-accent); /* Cursor */
+    color: var(--color-primary-accent);
+    display: inline-block;
+    max-width: 100%; /* Ensures it respects container width */
+}
+
+/* Animation for the cursor blink */
+@keyframes blink {
+    0%, 100% { border-color: transparent; }
+    50% { border-color: var(--color-primary-accent); }
+}
+
+/* --- 3. SIDEKICK MENU (Responsive Navigation) --- */
 
 #sidekick-menu {
     position: fixed;
     top: 0;
     left: 0;
-    width: var(--menu-width-mobile);
+    width: 80vw;
     max-width: 300px;
     height: 100%;
     background-color: rgba(10, 10, 10, 0.98); 
     backdrop-filter: blur(10px); 
     z-index: 2000;
-    transform: translateX(-100%); 
-    transition: transform var(--transition-speed) cubic-bezier(0.7, 0, 0.3, 1); /* Smoother animation curve */
-    padding-top: 5rem;
+    transform: translateX(-100%); /* Start off-screen */
+    transition: transform var(--transition-speed) ease-in-out;
+    padding-top: 1rem;
     border-right: 2px solid var(--color-primary-accent);
 }
 
 #sidekick-menu.menu-active {
-    transform: translateX(0); 
+    transform: translateX(0); /* Slide in */
 }
 
 .menu-header {
@@ -119,9 +150,6 @@ a:hover {
     color: var(--color-secondary-accent);
     text-transform: uppercase;
     border-bottom: 1px solid var(--color-border-subtle);
-    position: absolute;
-    top: 0;
-    width: 100%;
 }
 
 .nav-list {
@@ -132,11 +160,6 @@ a:hover {
     position: relative; 
     overflow: hidden;
     margin-bottom: 0.1rem;
-    transition: background-color 0.15s ease;
-}
-
-.nav-list li:hover {
-    background-color: rgba(0, 229, 255, 0.1);
 }
 
 .nav-list a {
@@ -144,21 +167,19 @@ a:hover {
     padding: 1rem var(--mobile-padding);
     color: var(--color-text-primary);
     font-size: 0.95rem;
-    font-weight: 300;
 }
 .nav-list a i {
     margin-right: 0.75rem;
     color: var(--color-primary-accent);
 }
 
-/* Main Content Push Effect (Used by JS) */
-#main-content.pushed {
-    transform: translateX(var(--menu-width-mobile));
-    transition: transform var(--transition-speed) cubic-bezier(0.7, 0, 0.3, 1); 
+/* --- 4. DASHBOARD LAYOUT & ANIMATION (Mobile-First) --- */
+
+#main-content {
+    /* Ensures content uses full available width */
+    width: 100%;
+    transition: margin-left var(--transition-speed) ease-in-out;
 }
-
-
-/* --- 4. DASHBOARD LAYOUT & SECTIONS (Mobile-First Grid) --- */
 
 .dashboard-grid {
     padding: var(--mobile-padding);
@@ -182,23 +203,21 @@ a:hover {
     gap: 0.75rem;
 }
 
-/* --- 5. ANIMATED CARD CONTAINER STYLING --- */
-
-.animated-container {
+/* ANIMATED CONTAINERS (Only on main dashboard content) */
+#main-dashboard-content .animated-container {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border-subtle);
     border-radius: 12px;
     padding: 1.25rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     position: relative;
     overflow: hidden; 
     cursor: pointer;
     min-height: 80px;
 }
 
-.animated-container:hover {
-    /* Hover Animation */
+#main-dashboard-content .animated-container:hover {
     transform: translateY(-5px) scale(1.02);
     box-shadow: 0 10px 20px rgba(0, 229, 255, 0.2);
     border-color: var(--color-primary-accent);
@@ -219,24 +238,55 @@ a:hover {
     color: var(--color-primary-accent);
     transition: color 0.3s ease;
 }
-.card-link:hover i {
-    color: var(--color-secondary-accent); /* Color change on icon hover */
+
+/* --- 5. WIDGET SPECIFIC STYLING --- */
+
+.section-widgets {
+    display: grid;
+    grid-template-columns: 1fr; 
+    gap: 1.5rem;
+}
+
+.widget-realtime {
+    background: linear-gradient(135deg, #1f2a40 0%, #10151c 100%); 
+    border: 2px solid #00E5FF; 
+    grid-column: 1 / -1; 
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 1.5rem;
+}
+
+.time-display, .counter-display, #forex-rate {
+    font-family: 'JetBrains Mono', monospace; 
+    font-size: 1.5rem;
+    color: #FFEB3B; 
+}
+.widget-analytics {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 /* Floating Action Button (FAB) */
 .code-button {
+    position: fixed;
+    bottom: 2rem;
+    right: 1.5rem;
     width: 65px;
     height: 65px;
     border-radius: 50%;
     background-color: var(--color-secondary-accent);
     color: white;
+    font-size: 1rem;
+    font-weight: 700;
     box-shadow: 0 8px 20px rgba(255, 87, 34, 0.6);
-    /* Positioning */
-    position: fixed;
-    bottom: 2rem;
-    right: 1.5rem;
     z-index: 1500;
-    /* Pulse Animation */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    /* FAB Pulse Animation */
     animation: pulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
 }
 
@@ -246,67 +296,147 @@ a:hover {
     }
 }
 
-/* --- 6. WIDGET SPECIFIC STYLING --- */
+/* --- 6. CODING ROOM INTERFACE (Full Screen, Persistent) --- */
 
-.section-widgets {
-    display: grid;
-    grid-template-columns: 1fr; /* Single column on mobile */
-    gap: 1.5rem;
+.full-screen-section.hidden {
+    display: none;
 }
-
-.widget-realtime {
-    /* Special gradient background */
-    background: linear-gradient(135deg, #1f2a40 0%, #10151c 100%); 
-    border: 2px solid #00E5FF; /* Stronger border for emphasis */
-    grid-column: 1 / -1; 
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    padding: 1.5rem;
-}
-
-.data-block {
-    text-align: center;
-}
-
-.data-label {
-    font-size: 0.75rem;
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-    margin-bottom: 0.25rem;
-}
-
-.time-display, .counter-display, #forex-rate {
-    font-family: 'JetBrains Mono', monospace; 
-    font-size: 1.5rem;
-    color: #FFEB3B; /* Gold/Yellow for critical metrics */
-}
-
-#forex-rate {
-    font-size: 1.2rem;
-    color: #4CAF50; /* Green for financial data */
-}
-
-.weather-info {
-    font-size: 0.9rem;
-    color: var(--color-text-primary);
-}
-
-.widget-analytics {
-    grid-column: 1 / -1; /* Full width on mobile */
+#coding-room {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-background);
+    z-index: 5000;
     display: flex;
     flex-direction: column;
+}
+
+.coding-interface-header {
+    display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem var(--mobile-padding);
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-primary-accent);
 }
 
-.chart-placeholder p {
+#coding-room h2 {
+    font-size: 1.2rem;
+    color: var(--color-primary-accent);
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.9rem;
-    padding: 0.25rem 0;
 }
 
-/* --- 7. RIPPLE EFFECT STYLING (Dynamically created elements) --- */
+.status-indicator {
+    color: #F44336; /* Red for offline status */
+    margin-left: 0.5rem;
+}
 
+.coding-panels-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column; /* Vertical split on mobile */
+    overflow: hidden; /* Prevent scrolling inside the wrapper */
+}
+
+.coding-panel {
+    border: 1px solid var(--color-border-subtle);
+    padding: 0;
+    background-color: var(--color-code-background);
+}
+
+/* Mobile: Editors take 60%, Output takes 40% */
+.panel-editors {
+    height: 60%; 
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-output {
+    height: 40%; 
+    border-top: none;
+}
+
+/* Editor Tabs */
+.editor-tab-controls {
+    display: flex;
+    background-color: var(--color-surface);
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--color-primary-accent);
+}
+
+.editor-tab {
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.editor-tab.active {
+    color: var(--color-primary-accent);
+    background-color: var(--color-code-background);
+    border-radius: 4px 4px 0 0;
+}
+
+.run-button {
+    background-color: #4CAF50; /* Green Run Button */
+    color: white;
+    padding: 0.5rem 1rem;
+    margin-left: auto;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+}
+
+/* Code Editor Containers */
+.code-editor {
+    flex-grow: 1; /* Monaco will fit here */
+    height: 100%;
+    /* Set specific styles for the Monaco Editor */
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 14px;
+    background-color: var(--color-code-background);
+}
+.code-editor.hidden {
+    display: none;
+}
+
+/* Live Preview */
+#live-preview {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: white; /* Default background for preview */
+}
+
+.save-status {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    background-color: var(--color-surface);
+    color: var(--color-text-secondary);
+    z-index: 10;
+}
+
+/* --- 7. FOOTER & RIPPLE EFFECT --- */
+
+.futuristic-footer {
+    padding: 1rem var(--mobile-padding);
+    background-color: var(--color-surface);
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    border-top: 1px solid var(--color-border-subtle);
+    margin-top: 1rem;
+}
+
+/* RIPPLE EFFECT STYLING (JS will dynamically add the .ripple span) */
 .ripple-effect {
     position: relative;
     overflow: hidden;
@@ -329,110 +459,64 @@ a:hover {
     }
 }
 
-/* --- 8. FOOTER STYLING --- */
-
-.futuristic-footer {
-    padding: 1.5rem var(--mobile-padding);
-    background-color: var(--color-surface);
-    text-align: center;
-    font-size: 0.75rem;
-    color: var(--color-text-secondary);
-    border-top: 1px solid var(--color-border-subtle);
-    margin-top: 2rem;
-}
-
-
-/* --- 9. DESKTOP/TABLET OPTIMIZATION (Media Query) --- */
+/* --- 8. DESKTOP OPTIMIZATION (Media Query) --- */
 @media (min-width: 768px) {
     
     /* Global Adjustments */
     .dashboard-grid {
         padding-left: calc(var(--menu-width-desktop) + var(--mobile-padding));
-    }
-
-    /* Fixed Sidebar on Desktop */
-    #sidekick-menu {
-        transform: translateX(0); 
-        width: var(--menu-width-desktop);
-        padding-top: 1rem; 
-    }
-    .menu-header {
-        position: static;
-        border-bottom: none;
+        grid-template-columns: repeat(3, 1fr); 
         padding-top: 2rem;
     }
-    
-    /* Content Shift */
-    #main-content {
-        margin-left: 0; /* Content is no longer pushed by JS */
-        transition: none;
-    }
-    #main-content.pushed {
-        transform: none;
-    }
 
+    /* Sidekick Menu: Fixed Sidebar */
+    #sidekick-menu {
+        transform: translateX(0); /* Always visible */
+        width: var(--menu-width-desktop);
+        padding-top: 1rem; 
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.4);
+    }
+    
+    /* Header Shift */
     .futuristic-header {
-        position: relative;
         padding-left: calc(var(--menu-width-desktop) + 0.75rem);
     }
     #menu-toggle {
         display: none; 
     }
     
-    /* Dashboard Layout */
-    .dashboard-grid {
-        grid-template-columns: repeat(3, 1fr); 
-        padding-top: 2rem;
+    /* Typewriter Text Shift */
+    #welcome-banner {
+        padding-left: calc(var(--menu-width-desktop) + var(--mobile-padding));
     }
     
+    /* Dashboard Content Spans */
     .section-widgets {
-        grid-column: 1 / 4; /* Full width on desktop */
-        grid-template-columns: 2fr 1fr 1fr; /* Custom column distribution */
-        gap: 2rem;
+        grid-column: 1 / 4; /* Full width */
+        grid-template-columns: 2fr 1fr; 
+    }
+
+    /* Coding Room Layout: Horizontal Split */
+    #coding-room {
+        /* Shifted right to account for fixed sidebar */
+        left: var(--menu-width-desktop);
+        width: calc(100% - var(--menu-width-desktop));
+    }
+    .coding-panels-wrapper {
+        flex-direction: row; /* Horizontal split on desktop */
+    }
+    .panel-editors {
+        width: 65%; /* Editors take more space */
+        height: 100%;
+        border-right: none;
+    }
+    .panel-output {
+        width: 35%; /* Output takes less space */
+        height: 100%;
     }
     
-    .widget-realtime {
-        grid-template-columns: repeat(4, 1fr); /* 4 columns for real-time data */
-    }
-
-    .widget-analytics {
-        grid-column: 2 / 4; 
-    }
-
-    /* Column Span Adjustments */
-    #coding, #recreation {
-        grid-column: 1 / 3;
-    }
-    #academics, #career, #ai-tools {
-        grid-column: 3 / 4;
-    }
+    /* Footer Shift */
     .futuristic-footer {
         padding-left: var(--menu-width-desktop);
     }
 }
-
-
-
-/* Add this class to ensure the typewriter text doesn't wrap oddly while typing */
-#welcome-message-typewriter {
-    /* Use monospace font for the effect */
-    font-family: 'JetBrains Mono', monospace; 
-    font-weight: 500;
-    white-space: nowrap; /* Prevent line break during typing */
-    overflow: hidden; /* Hide extra characters */
-    border-right: 3px solid var(--color-primary-accent); /* Blinking cursor effect */
-    color: var(--color-primary-accent);
-}
-
-/* We will use JavaScript to control the blinking cursor animation later */
-/* Keyframe for a smooth, enticing cursor blink */
-@keyframes blink {
-    0%, 100% { border-color: transparent; }
-    50% { border-color: var(--color-primary-accent); }
-}
-
-/* Apply the blink only when the typing animation is NOT running (optional) */
-/* .typewriter-cursor {
-    animation: blink 0.7s infinite step-end;
-} */
-/* --- END OF CSS FILE --- */
