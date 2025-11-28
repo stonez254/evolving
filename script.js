@@ -1,154 +1,183 @@
-/* 🌌 GLOBAL STYLES */
-:root {
-    --color-primary: #00eaff;
-    --color-secondary: #ff00c3;
-    --glass-bg: rgba(255, 255, 255, 0.06);
-    --glass-border: rgba(255, 255, 255, 0.15);
+// --- DOM ELEMENTS ---
+const menuToggle = document.getElementById("menu-toggle");
+const sidekickMenu = document.getElementById("sidekick-menu");
+const codeFab = document.getElementById("code-fab");
+const mainDashboard = document.getElementById("main-dashboard-content");
+
+const realTimeClock = document.getElementById("real-time-clock");
+const weatherDisplay = document.getElementById("weather-display");
+const visitCountDisplay = document.getElementById("visit-count");
+
+const dailyHoursEl = document.getElementById("daily-hours");
+const streakDaysEl = document.getElementById("streak-days");
+const goalBar = document.getElementById("goal-bar");
+
+const codingRoom = document.getElementById("coding-room");
+const closeCodeRoom = document.getElementById("close-code-room");
+const codingStatus = document.getElementById("coding-room-status");
+
+const runCodeButton = document.getElementById("run-code");
+const saveStatus = document.getElementById("save-status");
+const livePreviewFrame = document.getElementById("live-preview");
+
+const typewriterElement = document.getElementById("welcome-message-typewriter");
+
+// --- STATE ---
+let visitors = 300;
+let timeSpent = 3.2;
+let streak = 4;
+
+let currentRate = 0.007704;
+
+// --- TYPEWRITER ---
+const messages = [
+    "EDERSTONE SYSTEMS - BOOT COMPLETE.",
+    "CODE SANDBOX ONLINE.",
+    "AI MODULES: READY.",
+    "WELCOME BACK, DEVELOPER."
+];
+let msgIndex = 0;
+
+function typeWriter(text, el, i = 0) {
+    if (i < text.length) {
+        el.textContent = text.substring(0, i + 1);
+        setTimeout(() => typeWriter(text, el, i + 1), 50);
+    } else {
+        setTimeout(() => eraseWriter(text, el), 2000);
+    }
+}
+function eraseWriter(text, el, i = text.length) {
+    if (i > 0) {
+        el.textContent = text.substring(0, i - 1);
+        setTimeout(() => eraseWriter(text, el, i - 1), 30);
+    } else {
+        msgIndex = (msgIndex + 1) % messages.length;
+        typeWriter(messages[msgIndex], el);
+    }
+}
+typeWriter(messages[0], typewriterElement);
+
+// --- REAL-TIME WIDGETS ---
+function updateWidgets() {
+    realTimeClock.textContent = new Date().toLocaleTimeString();
+
+    visitors += Math.floor(Math.random() * 3);
+    visitCountDisplay.textContent = visitors;
+
+    timeSpent += 0.004;
+    dailyHoursEl.textContent = `${timeSpent.toFixed(2)}h`;
+
+    const percent = Math.min(100, (timeSpent / 4) * 100);
+    goalBar.style.width = `${percent}%`;
+
+    streakDaysEl.textContent = `${streak} days`;
+
+    updateForex();
+}
+setInterval(updateWidgets, 1000);
+
+// --- FOREX SIM ---
+function updateForex() {
+    const change = (Math.random() - 0.5) * 0.000005;
+    currentRate = Math.max(0.0075, Math.min(0.0079, currentRate + change));
+
+    const forex = document.getElementById("forex-rate");
+    forex.textContent = `1 KES = ${currentRate.toFixed(6)} USD`;
+}
+weatherDisplay.textContent = "Nairobi - Cloudy, Mild Winds";
+
+// --- RIPPLE EFFECT ---
+document.querySelectorAll(".ripple-effect").forEach(el => {
+    el.addEventListener("click", e => {
+        const circle = document.createElement("span");
+        const diameter = Math.max(el.clientWidth, el.clientHeight);
+        const radius = diameter / 2;
+
+        const rect = el.getBoundingClientRect();
+        circle.style.width = circle.style.height = `${diameter}px`;
+        circle.style.left = `${e.clientX - rect.left - radius}px`;
+        circle.style.top = `${e.clientY - rect.top - radius}px`;
+        circle.className = "ripple";
+
+        const existing = el.querySelector(".ripple");
+        if (existing) existing.remove();
+
+        el.appendChild(circle);
+
+        circle.addEventListener("animationend", () => circle.remove(), { once: true });
+    });
+});
+
+// --- MENU ---
+menuToggle.addEventListener("click", () => {
+    sidekickMenu.classList.toggle("menu-active");
+});
+
+// --- CODING SANDBOX ---
+let htmlEditor, cssEditor, jsEditor;
+function toggleCoding(show) {
+    if (show) {
+        mainDashboard.classList.add("hidden");
+        codingRoom.classList.remove("hidden");
+        codingStatus.textContent = "ONLINE";
+
+        if (!htmlEditor) initializeEditors();
+    } else {
+        mainDashboard.classList.remove("hidden");
+        codingRoom.classList.add("hidden");
+        codingStatus.textContent = "OFFLINE";
+    }
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    font-family: "Inter", sans-serif;
-    background-image: url('https://wallpapercg.com/media/ts_1x/6588.webp');
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-    color: white;
+codeFab.addEventListener("click", () => toggleCoding(true));
+closeCodeRoom.addEventListener("click", () => toggleCoding(false));
+
+// --- MONACO EDITORS ---
+function initializeEditors() {
+    htmlEditor = monaco.editor.create(document.getElementById("html-editor"), {
+        value: "<h1>Hello World</h1>",
+        language: "html",
+        theme: "vs-dark"
+    });
+
+    cssEditor = monaco.editor.create(document.getElementById("css-editor"), {
+        value: "body { font-family: Arial; }",
+        language: "css",
+        theme: "vs-dark"
+    });
+
+    jsEditor = monaco.editor.create(document.getElementById("js-editor"), {
+        value: "console.log('Hello');",
+        language: "javascript",
+        theme: "vs-dark"
+    });
+
+    // Debounced Auto Save + Auto Run
+    let runTimeout;
+    [htmlEditor, cssEditor, jsEditor].forEach(ed => {
+        ed.onDidChangeModelContent(() => {
+            saveStatus.textContent = "Saving...";
+            clearTimeout(runTimeout);
+            runTimeout = setTimeout(() => {
+                saveStatus.textContent = "Saved";
+                runPreview();
+            }, 600);
+        });
+    });
 }
 
-/* DARK OVERLAY */
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    pointer-events: none;
+// --- RUN PREVIEW ---
+function runPreview() {
+    const html = htmlEditor.getValue();
+    const css = cssEditor.getValue();
+    const js = jsEditor.getValue();
+
+    livePreviewFrame.srcdoc = `
+        <html>
+            <head><style>${css}</style></head>
+            <body>${html}<script>${js}<\/script></body>
+        </html>
+    `;
 }
 
-/* SIDEBAR */
-#sidekick-menu {
-    position: fixed;
-    top: 0;
-    left: -260px;
-    width: 240px;
-    height: 100%;
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    padding: 1rem;
-    transition: 0.3s ease;
-    border-right: 1px solid var(--glass-border);
-}
-#sidekick-menu.menu-active { left: 0; }
-
-/* MENU BUTTON */
-#menu-toggle {
-    position: fixed;
-    top: 1rem;
-    left: 1rem;
-    padding: 15px;
-    border-radius: 50%;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    font-size: 24px;
-}
-
-/* GLASS PANELS */
-.glass {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(10px);
-    padding: 1rem;
-    border-radius: 12px;
-}
-
-/* GRID */
-.widgets-grid {
-    display: grid;
-    gap: 1rem;
-    padding: 1rem;
-}
-@media (min-width: 768px) {
-    .widgets-grid { grid-template-columns: repeat(4, 1fr); }
-}
-
-/* CARDS */
-.card-list {
-    display: grid;
-    gap: 0.7rem;
-}
-.card-list a {
-    padding: 1rem;
-    border-radius: 10px;
-    display: block;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    transition: 0.25s;
-}
-.card-list a:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 12px var(--color-primary);
-}
-
-/* FAB BUTTON */
-.code-button {
-    position: fixed;
-    bottom: 2.5rem;
-    right: 1.5rem;
-    padding: 17px 24px;
-    border-radius: 50px;
-    background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
-    border: none;
-    font-weight: bold;
-}
-
-/* RIPPLE EFFECT */
-.ripple-effect {
-    position: relative;
-    overflow: hidden;
-}
-.ripple {
-    position: absolute;
-    background: white;
-    opacity: 0.4;
-    border-radius: 50%;
-    transform: scale(0);
-    animation: ripple 0.5s linear;
-}
-@keyframes ripple {
-    to { transform: scale(4); opacity: 0; }
-}
-
-/* SANDBOX */
-#coding-room {
-    padding: 1rem;
-}
-.hidden { display: none; }
-
-.code-editor {
-    height: 270px;
-    margin-top: 1rem;
-    border-radius: 8px;
-}
-
-#live-preview {
-    width: 100%;
-    height: 250px;
-    margin-top: 1rem;
-    background: white;
-    border: none;
-}
-
-/* PROGRESS BAR */
-.progress-bar {
-    width: 100%;
-    height: 5px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 3px;
-}
-#goal-bar {
-    height: 100%;
-    width: 0%;
-    background: var(--color-secondary);
-    transition: 0.7s;
-}
+runCodeButton.addEventListener("click", runPreview);
