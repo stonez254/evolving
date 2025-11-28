@@ -147,4 +147,68 @@
 
     <script src="script.js"></script>
 </body>
+</html>                <a href="https://www.codecademy.com" target="_blank">Codecademy Free</a>
+                <a href="https://www.kaggle.com" target="_blank">Kaggle</a>
+                <a href="https://www.geeksforgeeks.org" target="_blank">GeeksForGeeks</a>
+            </div>
+        </section>
+
+        <!-- 🎵 ENTERTAINMENT -->
+        <section class="category-section" id="entertainment">
+            <h2>Entertainment</h2>
+            <div class="card-list">
+                <a href="https://youtube.com" target="_blank">YouTube</a>
+                <a href="https://spotify.com" target="_blank">Spotify</a>
+                <a href="https://m.netflix.com" target="_blank">Netflix</a>
+                <a href="https://soundcloud.com" target="_blank">SoundCloud</a>
+                <a href="https://twitch.tv" target="_blank">Twitch</a>
+                <a href="https://x.com" target="_blank">X (Twitter)</a>
+                <a href="https://instagram.com" target="_blank">Instagram</a>
+                <a href="https://tikTok.com" target="_blank">TikTok</a>
+                <a href="https://reddit.com" target="_blank">Reddit</a>
+                <a href="https://github.com/trending" target="_blank">GitHub Explore</a>
+            </div>
+        </section>
+
+        <!-- 🤖 AI TOOLS -->
+        <section class="category-section" id="ai-tools">
+            <h2>AI Tools</h2>
+            <div class="card-list">
+                <a href="https://chat.openai.com" target="_blank">ChatGPT</a>
+                <a href="https://gemini.google.com" target="_blank">Gemini</a>
+                <a href="https://grok.x.ai" target="_blank">Grok</a>
+                <a href="https://chat.deepseek.com" target="_blank">DeepSeek</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 🟦 FLOATING ACTION BUTTON -->
+    <button id="code-fab" class="code-button ripple-effect">CODE</button>
+
+    <!-- 🧪 CODING SANDBOX -->
+    <section id="coding-room" class="hidden">
+        <div class="coding-header">
+            <h2>Coding Sandbox — <span id="coding-room-status">OFFLINE</span></h2>
+            <button id="close-code-room" class="ripple-effect">Close ✖</button>
+        </div>
+
+        <div class="editor-tabs">
+            <button class="editor-tab active" data-lang="html">HTML</button>
+            <button class="editor-tab" data-lang="css">CSS</button>
+            <button class="editor-tab" data-lang="js">JS</button>
+        </div>
+
+        <div id="html-editor" class="code-editor"></div>
+        <div id="css-editor" class="code-editor hidden"></div>
+        <div id="js-editor" class="code-editor hidden"></div>
+
+        <button id="run-code" class="run-button ripple-effect">RUN</button>
+        <p id="save-status"></p>
+
+        <iframe id="live-preview" sandbox="allow-scripts"></iframe>
+    </section>
+
+    <script src="script.js"></script>
+</body>
 </html>
