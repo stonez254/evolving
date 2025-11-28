@@ -151,4 +151,4 @@ body::after {
     width: 0%;
     background: var(--color-secondary);
     transition: 0.7s;
-}
+    }
